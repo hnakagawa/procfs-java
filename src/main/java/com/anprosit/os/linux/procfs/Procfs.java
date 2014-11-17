@@ -32,8 +32,20 @@ public class Procfs {
         List<File> files = FileUtils.getFiles(base, processFileNameFilter);
         List<Proc> procs = new ArrayList<Proc>(files.size());
         for (File file : files)
-            procs.add(new Proc(base + file.getName() + "/", Integer.parseInt(file.getName())));
+            procs.add(createProc(file));
         return procs;
+    }
+
+    public List<ProcStat> getProcStats() throws IOException {
+        List<File> files = FileUtils.getFiles(base, processFileNameFilter);
+        List<ProcStat> procStats = new ArrayList<ProcStat>(files.size());
+        for (File file : files)
+            procStats.add(createProc(file).getStat());
+        return procStats;
+    }
+
+    private Proc createProc(File file) {
+        return new Proc(base + file.getName() + "/", Integer.parseInt(file.getName()));
     }
 
     public CpuStat getStat() throws IOException {

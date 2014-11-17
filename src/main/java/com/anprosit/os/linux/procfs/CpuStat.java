@@ -97,14 +97,28 @@ public class CpuStat {
 
         public final long iowait;
 
-        //TODO
+        public final long irq;
 
-        Cpu(long user, long nice, long system, long idle, long iowait) {
+        public final long softirq;
+
+        public final long steal;
+
+        public final long total;
+
+        public final long busy;
+
+        Cpu(long user, long nice, long system, long idle, long iowait, long irq, long softirq, long steal) {
             this.user = user;
             this.nice = nice;
             this.system = system;
             this.idle = idle;
             this.iowait = iowait;
+            this.irq = irq;
+            this.softirq = softirq;
+            this.steal = steal;
+
+            this.busy = user + nice + system + irq + softirq + steal;
+            this.total = this.busy + idle + iowait;
         }
 
         @Override
@@ -112,7 +126,7 @@ public class CpuStat {
             return String.format("cpu user=%d,nice=%d,system=%d,idle=%d,iowait=%d\n", user, nice, system, idle, iowait);
         }
 
-        private static final Pattern pattern = Pattern.compile("cpu\\d* +(\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+).*");
+        private static final Pattern pattern = Pattern.compile("cpu\\d* +(\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+) (\\d+).*");
 
         static Cpu newInstance(String data) {
             Matcher matcher = pattern.matcher(data);
@@ -124,8 +138,11 @@ public class CpuStat {
             long system = Long.parseLong(matcher.group(3));
             long idle = Long.parseLong(matcher.group(4));
             long iowait = Long.parseLong(matcher.group(5));
+            long irq = Long.parseLong(matcher.group(6));
+            long softirq = Long.parseLong(matcher.group(7));
+            long steal = Long.parseLong(matcher.group(8));
 
-            return new Cpu(user, nice, system, idle, iowait);
+            return new Cpu(user, nice, system, idle, iowait, irq, softirq, steal);
         }
     }
 }
