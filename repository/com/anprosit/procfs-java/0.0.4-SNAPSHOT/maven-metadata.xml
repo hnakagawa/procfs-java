@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.anprosit</groupId>
+  <artifactId>procfs-java</artifactId>
+  <version>0.0.4-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20141210.094758</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20141210094758</lastUpdated>
+  </versioning>
+</metadata>
