@@ -78,7 +78,7 @@ public class ProcStat {
                 pid, comm, state.symbol, ppid, pgrp, session, ttyNr, tpgid, flags, minflt, cminflt, majflt, cmajflt, utime, stime, cutime, cstime, priority, nice, numThreads);
     }
 
-    private static final Pattern pattern = Pattern.compile("(\\d+) \\(([^\\)]+)\\) ([RSDZTW]) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+).*");
+    private static final Pattern pattern = Pattern.compile("(\\d+) \\(([^\\)]+)\\) ([RSDZTtW]) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+) (-?\\d+).*");
 
     static ProcStat newInstance(String data) {
         Matcher matcher = pattern.matcher(data);
@@ -115,7 +115,8 @@ public class ProcStat {
         SLEEPING('S'),
         DISK_SLEEPING('D'),
         ZOMBIE('Z'),
-        TRACED('T'),
+        STOPPED('T'),
+        TRACING_STOP('t'),
         PAGING('W');
 
         public char symbol;
