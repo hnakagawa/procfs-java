@@ -19,17 +19,17 @@ public final class ProcUtils {
     public static List<ProcStat> sortByCpuUsage(final Map<Integer, ProcStat> t1, List<ProcStat> t2) {
         List<ProcStat> newArray = new ArrayList<ProcStat>(t2);
         Collections.sort(newArray, new Comparator<ProcStat>() {
-            private Map<ProcStat, Long> cache = new HashMap<ProcStat, Long>();
+            private Map<ProcStat, BigInteger> cache = new HashMap<ProcStat, BigInteger>();
 
             @Override
             public int compare(ProcStat lh, ProcStat rh) {
-                long lt = getTime(lh);
-                long rt = getTime(rh);
-                return Long.valueOf(rt).compareTo(lt);
+                BigInteger lt = getTime(lh);
+                BigInteger rt = getTime(rh);
+                return rt.compareTo(lt);
             }
 
-            private long getTime(ProcStat stat) {
-                Long t = cache.get(stat);
+            private BigInteger getTime(ProcStat stat) {
+                BigInteger t = cache.get(stat);
                 if (t != null)
                     return t;
 
@@ -38,10 +38,9 @@ public final class ProcUtils {
                 if (last != null)
                     c = c.subtract(last.utime.add(last.stime));
 
-                long v = c.longValue();
-                cache.put(stat, v);
+                cache.put(stat, c);
 
-                return v;
+                return c;
             }
         });
 
