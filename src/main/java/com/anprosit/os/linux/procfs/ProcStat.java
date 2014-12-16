@@ -1,5 +1,6 @@
 package com.anprosit.os.linux.procfs;
 
+import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,13 +34,13 @@ public class ProcStat {
 
     public final long cmajflt;
 
-    public final long utime;
+    public final BigInteger utime;
 
-    public final long stime;
+    public final BigInteger stime;
 
-    public final long cutime;
+    public final BigInteger cutime;
 
-    public final long cstime;
+    public final BigInteger cstime;
 
     public final int priority;
 
@@ -49,7 +50,7 @@ public class ProcStat {
 
     //TODO
 
-    ProcStat(int pid, String comm, State state, int ppid, int pgrp, int session, int ttyNr, int tpgid, long flags, long minflt, long cminflt, long majflt, long cmajflt, long utime, long stime, long cutime, long cstime, int priority, int nice, int numThreads) {
+    ProcStat(int pid, String comm, State state, int ppid, int pgrp, int session, int ttyNr, int tpgid, long flags, long minflt, long cminflt, long majflt, long cmajflt, BigInteger utime, BigInteger stime, BigInteger cutime, BigInteger cstime, int priority, int nice, int numThreads) {
         this.pid = pid;
         this.comm = comm;
         this.state = state;
@@ -98,10 +99,10 @@ public class ProcStat {
         long cminflt = Long.parseLong(matcher.group(11));
         long majflt = Long.parseLong(matcher.group(12));
         long cmajflt = Long.parseLong(matcher.group(13));
-        long utime = Long.parseLong(matcher.group(14));
-        long stime = Long.parseLong(matcher.group(15));
-        long cutime = Long.parseLong(matcher.group(16));
-        long cstime = Long.parseLong(matcher.group(17));
+        BigInteger utime = new BigInteger(matcher.group(14));
+        BigInteger stime = new BigInteger(matcher.group(15));
+        BigInteger cutime = new BigInteger(matcher.group(16));
+        BigInteger cstime = new BigInteger(matcher.group(17));
         int priority = Integer.parseInt(matcher.group(18));
         int nice = Integer.parseInt(matcher.group(19));
         int numThreads = Integer.parseInt(matcher.group(20));

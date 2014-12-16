@@ -1,5 +1,6 @@
 package com.anprosit.os.linux.procfs;
 
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -32,14 +33,15 @@ public final class ProcUtils {
                 if (t != null)
                     return t;
 
-                long c = stat.utime + stat.stime;
+                BigInteger c = stat.utime.add(stat.stime);
                 ProcStat last = t1.get(stat.pid);
                 if (last != null)
-                    c = c - (last.utime + last.stime);
+                    c = c.subtract(last.utime.add(last.stime));
 
-                cache.put(stat, c);
+                long v = c.longValue();
+                cache.put(stat, v);
 
-                return c;
+                return v;
             }
         });
 
